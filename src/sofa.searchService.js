@@ -1,7 +1,14 @@
 'use strict';
 /**
- * @name SearchService
- * @namespace sofa.SearchService
+ * @sofadoc class
+ * @name sofa.SearchService
+ * @package sofa-search-service
+ * @requiresPackage sofa-http-service
+ * @requiresPackage sofa-q-service
+ * @requires sofa.ConfigService
+ * @requires sofa.HttpService
+ * @requires sofa.QService
+ * @distFile dist/sofa.searchService.js
  *
  * @description
  * Search service which let's you query against the CouchCommerce API to search
@@ -16,7 +23,8 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
         endpoint = configService.get('searchUrl') + '?callback=JSON_CALLBACK&len=100';
 
     /**
-     * @method search
+     * @sofadoc method
+     * @name sofa.SearchService#search
      * @memberof sofa.SearchService
      *
      * @description
