@@ -1,3 +1,18 @@
+<a name="0.2.0"></a>
+## 0.2.0 (2014-06-20)
+
+
+#### Bug Fixes
+
+* **Gruntfile:** fixes license banner ([61b78287](https://github.com/sofa/sofa-search-service/commit/61b7828701121cb4da5af72586fdbe71d2b6841b))
+* **LICENSE:** fixes naming ([9b3e9fe3](https://github.com/sofa/sofa-search-service/commit/9b3e9fe3fcd4388911f57d195510117648f8c985))
+
+
+#### Features
+
+* ***:** fetch new URL properties ([3fe8c465](https://github.com/sofa/sofa-search-service/commit/3fe8c465198ea31b647a9d3b4cb7cb863dd7bc02))
+
+
 <a name="0.1.3"></a>
 ### 0.1.3 (2014-04-16)
 
