@@ -15,7 +15,7 @@ describe('sofa.SearchService', function () {
 
         searchUrl = configService.get('searchUrl') + '?callback=JSON_CALLBACK&len=100';
         storeCode = configService.get('storeCode');
-        searchFields = 'text, categoryUrlKey, categoryName, productUrlKey, productImageUrl';
+        searchFields = 'text, categoryUrlKey, categoryOriginFullUrl, categoryName, productUrlKey, productOriginFullUrl, productImageUrl';
 
         sofa.Config.searchDebounceMs = 50;
         searchService = new sofa.SearchService(configService, createHttpService(), q);

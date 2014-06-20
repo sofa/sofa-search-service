@@ -1,5 +1,5 @@
 /**
- * sofa-search-service - v0.1.3 - 2014-04-16
+ * sofa-search-service - v0.1.3 - 2014-06-20
  * http://www.sofa.io
  *
  * Copyright (c) 2014 CouchCommerce GmbH (http://www.couchcommerce.com / http://www.sofa.io) and other contributors
@@ -67,7 +67,7 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
                 url: endpoint,
                 params: {
                     q: createSearchCommand(normalizeUmlauts(searchStr)),
-                    fetch: 'text, categoryUrlKey, categoryName, productUrlKey, productImageUrl'
+                    fetch: 'text, categoryUrlKey, categoryOriginFullUrl, categoryName, productUrlKey, productOriginFullUrl, productImageUrl'
                 }
             }).then(function (response) {
                 if (requestToken === lastRequestToken) {

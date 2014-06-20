@@ -57,7 +57,7 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
                 url: endpoint,
                 params: {
                     q: createSearchCommand(normalizeUmlauts(searchStr)),
-                    fetch: 'text, categoryUrlKey, categoryName, productUrlKey, productImageUrl'
+                    fetch: 'text, categoryUrlKey, categoryOriginFullUrl, categoryName, productUrlKey, productOriginFullUrl, productImageUrl'
                 }
             }).then(function (response) {
                 if (requestToken === lastRequestToken) {
