@@ -1,3 +1,12 @@
+<a name="0.2.1"></a>
+### 0.2.1 (2014-06-23)
+
+
+#### Bug Fixes
+
+* ***:** include groupOriginFullUrl in response ([d518e609](https://github.com/sofa/sofa-search-service/commit/d518e6095b4c176151cede5c7ca2e9fac40125e1))
+
+
 <a name="0.2.0"></a>
 ## 0.2.0 (2014-06-20)
 
