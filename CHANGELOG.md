@@ -1,3 +1,12 @@
+<a name="0.3.0"></a>
+## 0.3.0 (2014-06-23)
+
+
+#### Features
+
+* **grunt:** better deploying ([2692d7f6](https://github.com/sofa/sofa-search-service/commit/2692d7f631d95413a67c4736be3a19482829bb4e))
+
+
 <a name="0.2.1"></a>
 ### 0.2.1 (2014-06-23)
 
