@@ -83,6 +83,7 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
             if (!prev[curr.categoryUrlKey]) {
                 var group = prev[curr.categoryUrlKey] = {
                     groupKey: curr.categoryUrlKey,
+                    groupOriginFullUrl: curr.categoryOriginFullUrl,
                     groupText: curr.categoryName,
                     items: []
                 };

@@ -1,5 +1,5 @@
 /**
- * sofa-search-service - v0.2.0 - 2014-06-20
+ * sofa-search-service - v0.2.0 - 2014-06-23
  * http://www.sofa.io
  *
  * Copyright (c) 2014 CouchCommerce GmbH (http://www.couchcommerce.com / http://www.sofa.io) and other contributors
@@ -93,6 +93,7 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
             if (!prev[curr.categoryUrlKey]) {
                 var group = prev[curr.categoryUrlKey] = {
                     groupKey: curr.categoryUrlKey,
+                    groupOriginFullUrl: curr.categoryOriginFullUrl,
                     groupText: curr.categoryName,
                     items: []
                 };
