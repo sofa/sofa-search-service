@@ -1,5 +1,5 @@
 /**
- * sofa-search-service - v0.3.0 - 2014-06-23
+ * sofa-search-service - v0.4.0 - 2014-08-05
  * http://www.sofa.io
  *
  * Copyright (c) 2014 CouchCommerce GmbH (http://www.couchcommerce.com / http://www.sofa.io) and other contributors
@@ -10,8 +10,15 @@
 
 'use strict';
 /**
- * @name SearchService
- * @namespace sofa.SearchService
+ * @sofadoc class
+ * @name sofa.SearchService
+ * @package sofa-search-service
+ * @requiresPackage sofa-http-service
+ * @requiresPackage sofa-q-service
+ * @requires sofa.ConfigService
+ * @requires sofa.HttpService
+ * @requires sofa.QService
+ * @distFile dist/sofa.searchService.js
  *
  * @description
  * Search service which let's you query against the CouchCommerce API to search
@@ -26,7 +33,8 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
         endpoint = configService.get('searchUrl') + '?callback=JSON_CALLBACK&len=100';
 
     /**
-     * @method search
+     * @sofadoc method
+     * @name sofa.SearchService#search
      * @memberof sofa.SearchService
      *
      * @description
