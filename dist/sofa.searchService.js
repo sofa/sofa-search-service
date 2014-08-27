@@ -1,5 +1,5 @@
 /**
- * sofa-search-service - v0.4.0 - 2014-08-05
+ * sofa-search-service - v0.4.0 - 2014-08-27
  * http://www.sofa.io
  *
  * Copyright (c) 2014 CouchCommerce GmbH (http://www.couchcommerce.com / http://www.sofa.io) and other contributors
@@ -7,6 +7,64 @@
  * IT IS PROVIDED UNDER THE LICENSE TERMS OF THE ATTACHED LICENSE.TXT.
  */
 ;(function (sofa, undefined) {
+
+'use strict';
+
+sofa.define('sofa.SearchRequestResolver', function ($http, configService) {
+
+    var storeCode = configService.get('storeCode');
+    var endpoint = configService.get('searchUrl') + '?callback=JSON_CALLBACK&len=100';
+
+    var createSearchCommand = function (searchStr) {
+        var reverseString = searchStr.split('').reverse().join('');
+        return '(text:' + searchStr + '* OR reverse_text:' + reverseString + '*) AND storeCode:' + storeCode;
+    };
+
+    var normalizeUmlauts = function (searchStr) {
+        return searchStr
+                    .replace(/[áàâä]/g, 'a')
+                    .replace(/[úùûü]/g, 'u')
+                    .replace(/[óòôö]/g, 'o')
+                    .replace(/[éèêë]/g, 'e')
+                    .replace(/[ß]/g, 'ss');
+    };
+
+    return function (searchStr) {
+        return $http({
+            method: 'JSONP',
+            url: endpoint,
+            params: {
+                q: createSearchCommand(normalizeUmlauts(searchStr)),
+                fetch: 'text, categoryUrlKey, categoryOriginFullUrl, categoryName, productUrlKey, productOriginFullUrl, productImageUrl'
+            }
+        });
+    };
+});
+
+'use strict';
+
+sofa.define('sofa.SearchResultResolver', function () {
+    return function (response) {
+        var results = response.data.results;
+        var grouped = results.reduce(function (prev, curr) {
+            if (!prev[curr.categoryUrlKey]) {
+                var group = prev[curr.categoryUrlKey] = {
+                    groupKey: curr.categoryUrlKey,
+                    groupOriginFullUrl: curr.categoryOriginFullUrl,
+                    groupText: curr.categoryName,
+                    items: []
+                };
+                prev.items.push(group);
+            }
+
+            prev[curr.categoryUrlKey].items.push(curr);
+
+            return prev;
+        }, { items: [] });
+        //we only care about the array. The object was just for fast lookups!
+        response.data.groupedResults = grouped.items;
+    };
+});
 
 'use strict';
 /**
@@ -28,9 +86,10 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
 
     var self = {},
         lastRequestToken = null,
-        storeCode = configService.get('storeCode'),
-        debounceMs = configService.get('searchDebounceMs', 300),
-        endpoint = configService.get('searchUrl') + '?callback=JSON_CALLBACK&len=100';
+        debounceMs = configService.get('searchDebounceMs', 300);
+
+    var searchRequestResolver = new sofa.SearchRequestResolver($http, configService);
+    var searchResultResolver = new sofa.SearchResultResolver($http, $q);
 
     /**
      * @sofadoc method
@@ -70,17 +129,11 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
                 }
             });
         } else {
-            $http({
-                method: 'JSONP',
-                url: endpoint,
-                params: {
-                    q: createSearchCommand(normalizeUmlauts(searchStr)),
-                    fetch: 'text, categoryUrlKey, categoryOriginFullUrl, categoryName, productUrlKey, productOriginFullUrl, productImageUrl'
-                }
-            }).then(function (response) {
+            searchRequestResolver(searchStr)
+            .then(function (response) {
                 if (requestToken === lastRequestToken) {
                     if (grouping) {
-                        groupResult(response, grouping);
+                        searchResultResolver(response);
                     }
                     deferredResponse.resolve(response);
                 }
@@ -95,42 +148,7 @@ sofa.define('sofa.SearchService', function (configService, $http, $q, applier) {
         return deferredResponse.promise;
     };
 
-    var groupResult = function (response) {
-        var results = response.data.results;
-        var grouped = results.reduce(function (prev, curr) {
-            if (!prev[curr.categoryUrlKey]) {
-                var group = prev[curr.categoryUrlKey] = {
-                    groupKey: curr.categoryUrlKey,
-                    groupOriginFullUrl: curr.categoryOriginFullUrl,
-                    groupText: curr.categoryName,
-                    items: []
-                };
-                prev.items.push(group);
-            }
-
-            prev[curr.categoryUrlKey].items.push(curr);
-
-            return prev;
-        }, { items: [] });
-        //we only care about the array. The object was just for fast lookups!
-        response.data.groupedResults = grouped.items;
-    };
-
     var debouncedInnerSearch = sofa.Util.debounce(innerSearch, debounceMs);
-
-    var createSearchCommand = function (searchStr) {
-        var reverseString = searchStr.split('').reverse().join('');
-        return '(text:' + searchStr + '* OR reverse_text:' + reverseString + '*) AND storeCode:' + storeCode;
-    };
-
-    var normalizeUmlauts = function (searchStr) {
-        return searchStr
-                    .replace(/[áàâä]/g, 'a')
-                    .replace(/[úùûü]/g, 'u')
-                    .replace(/[óòôö]/g, 'o')
-                    .replace(/[éèêë]/g, 'e')
-                    .replace(/[ß]/g, 'ss');
-    };
 
     return self;
 });
