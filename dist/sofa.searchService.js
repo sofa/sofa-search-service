@@ -1,5 +1,5 @@
 /**
- * sofa-search-service - v0.4.0 - 2014-08-27
+ * sofa-search-service - v0.5.0 - 2014-09-10
  * http://www.sofa.io
  *
  * Copyright (c) 2014 CouchCommerce GmbH (http://www.couchcommerce.com / http://www.sofa.io) and other contributors

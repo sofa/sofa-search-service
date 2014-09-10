@@ -1,3 +1,12 @@
+<a name="0.5.0"></a>
+## 0.5.0 (2014-09-10)
+
+
+#### Features
+
+* ***:** add SearchRequestResolver, SearchResultResolver ([52e49ae7](https://github.com/sofa/sofa-search-service/commit/52e49ae73c430fbf9de3d146ef36956b1af2ff0e))
+
+
 <a name="0.4.0"></a>
 ## 0.4.0 (2014-08-05)
 
